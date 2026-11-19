@@ -1,5 +1,1 @@
-[
-  { "file": "1-checklist.jpg", "path": "/", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "2-silver.jpg", "path": "/", "grade": "silver", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "3-bronze.jpg", "path": "/", "grade": "bronze", "scroll": 1400, "viewport": { "width": 1280, "height": 800 } }
-]
+[{"file":"1-checklist.jpg","note":"Checklist with the missable trophy's guide and sources open in the detail pane; progress ring and filters visible","path":"/","viewport":{"height":800,"width":1280}},{"file":"2-roadmap.jpg","note":"Six-stage platinum roadmap with per-stage trophy lists and counts","path":"/?view=roadmap","viewport":{"height":800,"width":1280}},{"file":"3-missables.jpg","note":"Missable watch list with the spoiler setting and safety notes","path":"/?view=missables","viewport":{"height":800,"width":1280}},{"file":"4-collectibles.jpg","kind":"collectibles","note":"Collectibles filter at work with a second trophy's guide open","path":"/","viewport":{"height":800,"width":1280}}]
