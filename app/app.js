@@ -1,7 +1,13 @@
-// Vice Atlas — GTA VI trophy guide & tracker.
+// Vice Atlas — GTA VI trophy guide & tracker (recorded rebuild, 21 Nov 2026).
 // Offline static app: loads data/trophies.json from its own folder, keeps earned
 // trophies in localStorage, and never makes a network request of its own.
 // Views: checklist (with guide detail pane), platinum roadmap, missable watch list.
+// This rebuild rewrote every guide in the data file from the cited published
+// guides, corrected the hidden-trophy flags to 28 (Challenging Tank is hidden;
+// Hot Together and Retail Therapy are not), and added two small features:
+// a "backed by N sources" chip plus a copy-guide button in the detail pane,
+// and an audit strip that is filled from the data itself so its counts can
+// never drift from the trophy list again.
 const STORE_KEY = 'vice-atlas-progress-v1';
 const SPOILER_KEY = 'vice-atlas-spoilers-v1';
 const TOTAL_HOURS = 200;
@@ -42,6 +48,19 @@ function gradeCounts() {
     if (earned.has(t.name)) counts[t.grade][0] += 1;
   }
   return counts;
+}
+
+function renderAudit() {
+  const verified = trophies.filter((t) => t.verified).length;
+  const hidden = trophies.filter((t) => t.hidden).length;
+  const multi = trophies.filter((t) => (t.sources ?? []).length >= 2).length;
+  const set = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  };
+  set('auditVerified', verified + ' verified · ' + (trophies.length - verified) + ' provisional');
+  set('auditHidden', hidden + ' hidden on PSN');
+  set('auditMulti', multi + '/' + trophies.length + ' guides backed by 2+ sources');
 }
 
 function renderProgress() {
@@ -92,6 +111,13 @@ function sourceLine(key) {
   return li;
 }
 
+function sourceNames(keys) {
+  return (keys ?? []).map((key) => {
+    const s = sourceIndex[key];
+    return s ? s.n + ' (' + s.d + ')' : key;
+  }).join(' · ');
+}
+
 function renderDetail(t) {
   detailEl.replaceChildren();
   const title = document.createElement('h3');
@@ -105,6 +131,10 @@ function renderDetail(t) {
   gradeChip.className = 'grade grade-' + t.grade;
   gradeChip.textContent = t.grade;
   badges.append(gradeChip);
+  const srcChip = document.createElement('span');
+  srcChip.className = 'flag flag-src';
+  srcChip.textContent = 'Backed by ' + (t.sources ?? []).length + ' sources';
+  badges.append(srcChip);
   if (t.missable) {
     const f = document.createElement('span');
     f.className = 'flag flag-missable';
@@ -127,15 +157,31 @@ function renderDetail(t) {
   guideHeading.textContent = 'Guide';
   const sourceLineEl = document.createElement('p');
   sourceLineEl.className = 'source-line';
-  sourceLineEl.textContent = 'Sources: ' + (t.sources ?? []).map((key) => {
-    const s = sourceIndex[key];
-    return s ? s.n + ' (' + s.d + ')' : key;
-  }).join(' · ');
+  sourceLineEl.textContent = 'Sources: ' + sourceNames(t.sources);
   const guideText = document.createElement('p');
   guideText.className = 'guide-text';
   guideText.textContent = spoilerHidden(t)
     ? 'Turn off “Hide story spoilers” or earn this trophy to read its guide.'
     : t.guide;
+  const copyBtn = document.createElement('button');
+  copyBtn.type = 'button';
+  copyBtn.className = 'copy-btn';
+  copyBtn.textContent = 'Copy guide';
+  copyBtn.addEventListener('click', async () => {
+    const text = t.name + ' — ' + t.description + '\n' + t.guide + '\nSources: ' + sourceNames(t.sources);
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.append(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    }
+    copyBtn.textContent = 'Copied ✓';
+    window.setTimeout(() => { copyBtn.textContent = 'Copy guide'; }, 1500);
+  });
   const sourcesHeading = document.createElement('h4');
   sourcesHeading.textContent = 'Sources';
   const list = document.createElement('ul');
@@ -146,7 +192,7 @@ function renderDetail(t) {
   verdict.textContent = t.verified
     ? '✓ Method confirmed by the cited guide(s).'
     : '⚠ Provisional: no published guide had pinned this method down by 21 Nov 2026 — the guide follows the official description and the best published lead only.';
-  detailEl.append(title, desc, badges, sourceLineEl, guideHeading, guideText, sourcesHeading, list, verdict);
+  detailEl.append(title, desc, badges, sourceLineEl, guideHeading, guideText, copyBtn, sourcesHeading, list, verdict);
 }
 
 function renderChecklist() {
@@ -215,6 +261,9 @@ function renderChecklist() {
     + (spoilerEl.checked ? ' · story spoilers hidden until earned' : '');
 }
 
+// The seven guides newly confirmed from launch-week play, 20–21 Nov 2026.
+const NEWLY_CONFIRMED = new Set([38, 44, 45, 47, 48, 50, 51]);
+
 const STAGES = [
   { n: 1, title: 'Story first — Chapters 1–5', time: '~60–80 h', text: 'Play the story straight through. All 12 story trophies unlock automatically. Do the Chapter 1 meditation at Jason’s house before Chapter 1 ends — it is the run’s only missable moment.', trophies: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] },
   { n: 2, title: 'Strangers & side missions', time: '~15 h', text: 'Finish the stranger strands: Andy, Kenton, Billy, Randy, Tyrone, plus three more stranger givers, and Bret’s unique-animal hunt.', trophies: [22, 23, 24, 25, 26, 27, 29] },
@@ -249,6 +298,12 @@ function renderRoadmap() {
       if (earned.has(t.name)) li.classList.add('done');
       li.textContent = (earned.has(t.name) ? '✓ ' : '○ ') + t.name + ' — ' + t.grade
         + (t.missable ? ' — ⚠ MISSABLE' : '');
+      if (NEWLY_CONFIRMED.has(id)) {
+        const flag = document.createElement('span');
+        flag.className = 'new-flag';
+        flag.textContent = ' ★ NEWLY CONFIRMED';
+        li.append(flag);
+      }
       ul.append(li);
     }
     card.append(h, p, count, ul);
@@ -269,7 +324,7 @@ function renderMissables() {
     const guide = document.createElement('p');
     guide.textContent = t.guide;
     const src = document.createElement('p');
-    src.textContent = 'Sources: PowerPyx — GTA 6 Trophy Guide & Roadmap (20 Nov 2026); GTABase — GTA 6 trophy guide (18 Nov 2026).';
+    src.textContent = 'Sources: ' + sourceNames(t.sources) + '.';
     card.append(h, desc, guide, src);
     host.append(card);
   }
@@ -351,6 +406,7 @@ const params = new URLSearchParams(window.location.search);
 const startView = params.get('view');
 if (startView === 'roadmap' || startView === 'missables') showView(startView);
 
+renderAudit();
 renderProgress();
 renderChecklist();
 renderRoadmap();

@@ -12,20 +12,28 @@
 //
 // Screenshots (screenshots/, first by name is the cover; shots.json says which
 // views each was taken of): 1-checklist.jpg — the checklist with the missable
-// trophy's guide and sources open in the detail pane, and the v2 audit strip
+// trophy's guide and sources open in the detail pane, and the audit strip
 // (54 verified, 1 provisional, 7 guides newly confirmed 20–21 Nov 2026);
 // 2-roadmap.jpg — the six stage platinum roadmap; 3-missables.jpg — the missable
 // watch list with the spoiler setting and progress/export controls;
 // 4-collectibles.jpg — the collectibles filter at work with a second trophy's
 // guide open.
 //
-// v2 (21 Nov 2026): seven of the eight v1 PROVISIONAL guides are now confirmed
-// from launch-week play — Challenging Tank, In The Beginning…, Capital Offense,
-// Personal Best, Actions Speak Louder, The Truth Is Out There and Ten Pin —
-// each with named, dated sources, most backed by two or more independent guides.
-// Only Bad Luck, I Guess stays provisional (still unconfirmed anywhere; the
-// guide now carries the best published lead). The audit strip, footer and the
-// data file's source index were updated to match.
+// Recorded rebuild (21 Nov 2026, under makefun record): every one of the 55
+// guides was rewritten in this session from the cited published guides —
+// PowerPyx's trophy guide read in full, plus DamnModz, GameSpot, The Games
+// Wiki, GTABase, GTA Vibes and games.gg. Seven guides confirmed from
+// launch-week play (Challenging Tank, In The Beginning…, Capital Offense,
+// Personal Best, Actions Speak Louder, The Truth Is Out There and Ten Pin)
+// are in, each with named, dated sources, most backed by two or more
+// independent guides. Only Bad Luck, I Guess stays provisional (still
+// unconfirmed anywhere; the guide carries the best published lead). Two
+// accuracy fixes from this rebuild: the hidden-trophy flags now count 28
+// (Challenging Tank is hidden; Hot Together and Retail Therapy are not —
+// confirmed against games.gg, Insider Gaming and CryptoGames), and the
+// audit strip is filled from the data itself so its counts cannot drift.
+// The detail pane gained a "backed by N sources" chip and a copy-guide
+// button; the missable watch now builds its source line from the data.
 //
 // Serve it locally with `node serve.ts`, then open http://localhost:8080.
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
