@@ -145,7 +145,7 @@ function renderDetail(t) {
   verdict.className = 'verdict ' + (t.verified ? 'verified' : 'provisional');
   verdict.textContent = t.verified
     ? '✓ Method confirmed by the cited guide(s).'
-    : '⚠ Provisional: no published guide had pinned this method down by 19 Nov 2026 — the guide follows the official description only.';
+    : '⚠ Provisional: no published guide had pinned this method down by 21 Nov 2026 — the guide follows the official description and the best published lead only.';
   detailEl.append(title, desc, badges, sourceLineEl, guideHeading, guideText, sourcesHeading, list, verdict);
 }
 
@@ -269,12 +269,12 @@ function renderMissables() {
     const guide = document.createElement('p');
     guide.textContent = t.guide;
     const src = document.createElement('p');
-    src.textContent = 'Sources: PowerPyx — GTA 6 Trophy Guide & Roadmap (18 Nov 2026); GTABase — GTA 6 trophy guide (18 Nov 2026).';
+    src.textContent = 'Sources: PowerPyx — GTA 6 Trophy Guide & Roadmap (20 Nov 2026); GTABase — GTA 6 trophy guide (18 Nov 2026).';
     card.append(h, desc, guide, src);
     host.append(card);
   }
   const safe = document.createElement('p');
-  safe.textContent = 'All 12 story trophies and the other 42 trophies are confirmed unmissable — they unlock automatically or stay available after the story (PowerPyx, 18 Nov 2026).';
+  safe.textContent = 'All 12 story trophies and the other 42 trophies are confirmed unmissable — they unlock automatically or stay available after the story (PowerPyx, 20 Nov 2026).';
   host.append(safe);
 }
 

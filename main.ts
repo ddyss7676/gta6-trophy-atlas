@@ -12,10 +12,20 @@
 //
 // Screenshots (screenshots/, first by name is the cover; shots.json says which
 // views each was taken of): 1-checklist.jpg — the checklist with the missable
-// trophy's guide and sources open in the detail pane; 2-roadmap.jpg — the six
-// stage platinum roadmap; 3-missables.jpg — the missable watch list with the
-// spoiler setting and progress/export controls; 4-collectibles.jpg — the
-// collectibles filter at work with a second trophy's guide open.
+// trophy's guide and sources open in the detail pane, and the v2 audit strip
+// (54 verified, 1 provisional, 7 guides newly confirmed 20–21 Nov 2026);
+// 2-roadmap.jpg — the six stage platinum roadmap; 3-missables.jpg — the missable
+// watch list with the spoiler setting and progress/export controls;
+// 4-collectibles.jpg — the collectibles filter at work with a second trophy's
+// guide open.
+//
+// v2 (21 Nov 2026): seven of the eight v1 PROVISIONAL guides are now confirmed
+// from launch-week play — Challenging Tank, In The Beginning…, Capital Offense,
+// Personal Best, Actions Speak Louder, The Truth Is Out There and Ten Pin —
+// each with named, dated sources, most backed by two or more independent guides.
+// Only Bad Luck, I Guess stays provisional (still unconfirmed anywhere; the
+// guide now carries the best published lead). The audit strip, footer and the
+// data file's source index were updated to match.
 //
 // Serve it locally with `node serve.ts`, then open http://localhost:8080.
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
